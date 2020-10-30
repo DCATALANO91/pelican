@@ -3,7 +3,7 @@
 
 
 AUTHOR = 'Dean'
-SITENAME = 'This is a Test'
+SITENAME = 'Dean\'s Corner '
 SITEURL = 'DCATALANO91.github.io'
 
 PATH = 'content'
@@ -19,17 +19,21 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-# Blogroll
-LINKS = (('Pelican', 'https://getpelican.com/'),
-         ('Python.org', 'https://www.python.org/'),
-         ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
-         ('You can modify those links in your config file', '#'),)
+
+# Main Menu
+MAIN_MENU = True
+MENUITEMS = (('Archives', '/archives'),('Categories', '/categories'),('Tags', '/tags'),)
+
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
-
+SOCIAL = (('linkedin', 'https://www.linkedin.com/in/dean-catalano-36bab4123/'),
+          ('github', 'https://github.com/DCATALANO91'),
+          )
+		  
+		  
 DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
+
+THEME = 'themes\\flex'
