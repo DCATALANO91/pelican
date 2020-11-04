@@ -6,5 +6,3 @@ Author: Dean
 * Graduated from UCF in 2016 with a Bachelors Degree in Information Technology
 * Currently works for ADP as an Implementation Consultant
 
-
-![Image](https://i.imgur.com/OOYNcO3.jpg)

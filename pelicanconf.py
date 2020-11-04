@@ -12,6 +12,7 @@ TIMEZONE = 'EST'
 
 DEFAULT_LANG = 'en'
 
+SITELOGO = '/images/myimage.jpg'
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
