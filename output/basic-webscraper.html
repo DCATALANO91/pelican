@@ -117,7 +117,7 @@
   <div>
     <h2>Basic Python Webscraper</h2>
 <p>In this example we will be using Beautiful Soup to parse HTML and pull out useful data. We will parse through a company job board and only extract "engineering" jobs, then return their location and a link to apply.</p>
-<h2>Here is the section of our HTML source that we want to focus on. Notice how all Engineering jobs have a department id of "24990":</h2>
+<p>Here is the section of our HTML source that we want to focus on. Notice how all Engineering jobs have a department id of "24990":</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;level-0&quot;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;24990&quot;</span><span class="p">&gt;</span>Engineering<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 
@@ -143,15 +143,13 @@
 </pre></div>
 
 
-<hr>
-<h2>Let's start with importing requests and BeautifulSoup.</h2>
+<p>Let's start with importing requests and BeautifulSoup.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 </pre></div>
 
 
-<hr>
-<h2>Then we can store our HTML as a BeautifulSoup object.</h2>
+<p>Then we can store our HTML as a BeautifulSoup object.</p>
 <div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://boards.greenhouse.io/sidewalklabs#.WAfElZMrIXp&#39;</span>
 <span class="n">board</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
@@ -164,8 +162,7 @@
 </pre></div>
 
 
-<hr>
-<h2>Finally, we can iterate through this list and print out only the data we want to see; Job Title, Location, and a link to apply:</h2>
+<p>Finally, we can iterate through this list and print out only the data we want to see; Job Title, Location, and a link to apply:</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">eng_job</span> <span class="ow">in</span> <span class="n">eng_jobs</span><span class="p">:</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">eng_job</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">href_</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">location</span> <span class="o">=</span> <span class="n">eng_job</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;location&quot;</span><span class="p">)</span>
@@ -178,8 +175,7 @@
 </pre></div>
 
 
-<hr>
-<h2>Now, we should get out that looks something like this:</h2>
+<p>Now, we should get out that looks something like this:</p>
 <p>Director, Hardware Engineering Manager
 New York
 https://boards.greenhouse.io/sidewalklabs/jobs/2402388</p>

@@ -9,7 +9,7 @@ Category: Python
 In this example we will be using Beautiful Soup to parse HTML and pull out useful data. We will parse through a company job board and only extract "engineering" jobs, then return their location and a link to apply.
 
 Here is the section of our HTML source that we want to focus on. Notice how all Engineering jobs have a department id of "24990":
----
+
 ```HTML 
 <section class="level-0">
   <h2 id="24990">Engineering</h2>
@@ -34,16 +34,16 @@ Here is the section of our HTML source that we want to focus on. Notice how all 
   
 </section>
 ```
----
+
 Let's start with importing requests and BeautifulSoup.
----
+
 ```python
 import requests
 from bs4 import BeautifulSoup
 ```
----
+
 Then we can store our HTML as a BeautifulSoup object.
----
+
 ```python
 url = 'https://boards.greenhouse.io/sidewalklabs#.WAfElZMrIXp'
 board = requests.get(url)
@@ -56,9 +56,9 @@ Now we can find all instances of department 24990 and store them as a ResultSet 
 ```python
 eng_jobs = soup.find_all(department_id="24990")
 ```
----
+
 Finally, we can iterate through this list and print out only the data we want to see; Job Title, Location, and a link to apply:
----
+
 ```python
 for eng_job in eng_jobs:
     title = eng_job.find('a', href_="")
@@ -70,9 +70,9 @@ for eng_job in eng_jobs:
     print("https://boards.greenhouse.io{}".format(link))
     print()
 ```
----
+
 Now, we should get out that looks something like this:
----
+
 Director, Hardware Engineering Manager
 New York
 https://boards.greenhouse.io/sidewalklabs/jobs/2402388
