@@ -71,7 +71,7 @@ for eng_job in eng_jobs:
     print()
 ```
 
-Now, we should get out that looks something like this:
+Now, we should get output that looks something like this:
 
 Director, Hardware Engineering Manager
 New York
