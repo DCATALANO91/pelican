@@ -11,6 +11,7 @@ PATH = 'content'
 TIMEZONE = 'EST'
 
 DEFAULT_LANG = 'en'
+STATIC_PATHS = ['images']
 
 SITELOGO = '/images/myimage.jpg'
 # Feed generation is usually not desired when developing

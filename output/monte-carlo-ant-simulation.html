@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="./theme/pygments/github.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/solid.css">
+
+
+
+
+
+
+
+<meta name="author" content="Dean" />
+<meta name="description" content="Monte Carlo Ant Simulation In this project, we will utilize the Monte Carlo method to simulate an ant moving around a 3x3 board, which we will then record where the ant lands on it&#39;s 1000th step. The Monte Carlo Method was invented by Stanislaw Ulam and uses randomly repeated sampling …" />
+<meta name="keywords" content="Python, Monte Carlo, Markov Chain">
+
+
+<meta property="og:site_name" content="Dean's Corner "/>
+<meta property="og:title" content="Monte Carlo Ant Simulation"/>
+<meta property="og:description" content="Monte Carlo Ant Simulation In this project, we will utilize the Monte Carlo method to simulate an ant moving around a 3x3 board, which we will then record where the ant lands on it&#39;s 1000th step. The Monte Carlo Method was invented by Stanislaw Ulam and uses randomly repeated sampling …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./monte-carlo-ant-simulation.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-11-20 20:37:00-05:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/dean.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Monte Carlo"/>
+<meta property="article:tag" content="Markov Chain"/>
+<meta property="og:image" content="/images/myimage.jpg">
+
+  <title>Dean's Corner  &ndash; Monte Carlo Ant Simulation</title>
+
+</head>
+<body class="light-theme">
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/myimage.jpg" alt="" title="">
+      </a>
+
+      <h1>
+        <a href="."></a>
+      </h1>
+
+
+
+      <nav>
+        <ul class="list">
+
+
+              <li>
+                <a target="_self"
+                   href="./pages/about-me.html#about-me">
+                  About Me
+                </a>
+              </li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/dean-catalano-36bab4123/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-github" href="https://github.com/DCATALANO91" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">Home</a>
+
+      <a href="/archives">Archives</a>
+      <a href="/categories">Categories</a>
+      <a href="/tags">Tags</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="monte-carlo-ant-simulation">Monte Carlo Ant Simulation</h1>
+    <p>
+      Posted on Fri 20 November 2020 in <a href="./category/python.html">Python</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h2>Monte Carlo Ant Simulation</h2>
+<p>In this project, we will utilize the Monte Carlo method to simulate an ant moving around a 3x3 board, which we will then record where the ant lands on it's 1000th step. The Monte Carlo Method was invented by Stanislaw Ulam and uses randomly repeated sampling to predict statistical results.</p>
+<p>Let's start by discussing the caveats to our project:</p>
+<ul>
+<li>
+<p>The ant can begin at any random position on the 3x3 board</p>
+</li>
+<li>
+<p>The ant cannot move diagonally</p>
+</li>
+<li>
+<p>We will complete 1000 steps and record only the final landing space</p>
+</li>
+<li>
+<p>The simulation will run 100000 times, giving us 100000 data points</p>
+</li>
+<li>
+<p>The results will be converted to a decimal probability and written to a csv file</p>
+</li>
+</ul>
+<p>We'll start by importing random amd pandas. Random will be used to randomize our starting point and steps, while pandas will be used to store out data points in a dataframe.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+
+<p>Now we need to declare a few global variables. A list will be used to store the results of each simulation, a dictionary to write the results to which will be converted to a dataframe, and another dictionary that stores our valid moves based on the current position of the ant.</p>
+<div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">markov_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="mi">2</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="mi">3</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span><span class="mi">4</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span><span class="mi">5</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span><span class="mi">6</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span><span class="mi">7</span><span class="p">:[</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span><span class="mi">8</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span><span class="mi">9</span><span class="p">:[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]}</span>
+</pre></div>
+
+
+<p>Now we can begin coding our movement simulation. Keep in mind that this simulation needs run 100000 times, each iteration starts at a random spot and moves 1000 times. We can achieve this with a nested for loop.</p>
+<div class="highlight"><pre><span></span><span class="c1"># begin first for loop, from 0 to 100000 exclusive</span>
+<span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="c1"># store a random integer between 1 and 9 as x, this is the starting point</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+    <span class="c1"># second for loop uses the current value of x to obtain a new random valid value from our markov_dict</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">markov_dict</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="c1"># once the for loop is finished moving our ant 1000 times, we append the last move (x) to our results list  </span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Next, we count each instance of 1 - 9 and divide the result by 100000 to give us a decimal representation, before writting how many time each number appears in our list to a dictionary.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">my_dict</span><span class="p">[</span><span class="n">rec</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span><span class="o">/</span><span class="mi">100000</span>
+</pre></div>
+
+
+<p>Finally, we'll write the dictionary to a dataframe then export the results to a csv file.</p>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">my_dict</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;F:\PythonProjects\steps.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Once the code runs, you should end up with a csv file that looks like this:</p>
+<h2><img alt="Image" src="https://i.imgur.com/fzWbseT.jpg" title="CSV output"></h2>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/python.html">Python</a>
+      <a href="./tag/monte-carlo.html">Monte Carlo</a>
+      <a href="./tag/markov-chain.html">Markov Chain</a>
+    </p>
+  </div>
+
+
+
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Dean's Corner  ",
+  "url" : ".",
+  "image": "/images/myimage.jpg",
+  "description": ""
+}
+</script>
+
+
+</body>
+</html>
